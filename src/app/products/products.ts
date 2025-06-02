@@ -23,12 +23,4 @@ export class Products {
   maxPrice: number | null = null;
   filteredProducts = [...this.products];
 
-  applyFilters(): void {
-    this.filteredProducts = this.products.filter(product => {
-      const matchesCategory = this.selectedCategory === 'All' || product.category === this.selectedCategory;
-      const matchesTitle = product.title.toLowerCase().includes(this.titleSearch.toLowerCase());
-      const matchesPrice = this.maxPrice === null || product.price <= this.maxPrice;
-      return matchesCategory && matchesTitle && matchesPrice;
-    });
-  }
 }
