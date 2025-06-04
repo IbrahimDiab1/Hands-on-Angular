@@ -10,9 +10,7 @@
         <label>Category</label>
         <select class="form-control" [(ngModel)]="selectedCategory" name="category">
           <option value="All">All</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Shoes">Shoes</option>
-          <option value="Clothing">Clothing</option>
+          <option *ngFor="let category of categories" [value]="category.slug">{{ category.name }}</option>
         </select>
       </div>
       <div class="form-group">
@@ -23,14 +21,28 @@
         <label>Max Price ($)</label>
         <input type="number" class="form-control" [(ngModel)]="maxPrice" name="price" placeholder="Enter max price">
       </div>
-      <button type="submit" class="btn btn-primary">Apply</button>
+      <button type="submit" class="btn btn-primary mr-2">Apply</button>
+      <button type="button" class="btn btn-secondary" (click)="resetFilters()">Reset Filters</button>
     </form>
   </div>
   <div class="card p-3 mb-3">
     <h5>Current Filter Values</h5>
-    <p>Category: {{ selectedCategory }}</p>
+    <p>Category: {{ getCategoryName(selectedCategory) }}</p>
     <p>Title Search: {{ titleSearch || 'None' }}</p>
     <p>Max Price: {{ maxPrice !== null ? '$' + maxPrice : 'None' }}</p>
   </div>
   <h5>Product List</h5>
+  <div class="row">
+    <div class="col-md-3 mb-3" *ngFor="let product of products | productFilter:selectedCategory:titleSearch:maxPrice">
+      <div class="card">
+        <img [src]="product.thumbnail" class="card-img-top" [alt]="product.title">
+        <div class="card-body">
+          <h6>{{ product.title }}</h6>
+          <p class="text-muted">Category: {{ product.category }}</p>
+          <p>Price: ${{ product.price }}</p>
+          <button class="btn btn-primary">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
